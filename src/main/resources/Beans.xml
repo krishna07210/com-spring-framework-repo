@@ -4,9 +4,161 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
-    <bean id="Point10" class="com.spring.model.Point">
+    <bean id="point" class="com.spring.beans.Point">
+        <constructor-arg type="String" index="0" value="Hello"/>
+        <constructor-arg type="double" index="3" value="1.0"/>
+        <constructor-arg type="int" index="2" value="2000"/>
+        <constructor-arg type="float" index="1" value="2.0"/>
         <property name="x" value="10"/>
         <property name="y" value="10"/>
     </bean>
+    <bean id="calc" class="com.spring.beans.Calculator">
+        <constructor-arg index="0" type="int" value="20"/>
+        <constructor-arg index="1" type="int" value="10"/>
+    </bean>
+
+    <!-- Constructor setting values -->
+    <!--    <bean id="zebra1" class="com.spring.beans.Animal">-->
+    <!--        <constructor-arg index="1" value="567.1"/>-->
+    <!--        <constructor-arg index="0" value="1087.1"/>-->
+    <!--        <constructor-arg index="2" value="Zebra"/>-->
+    <!--        <constructor-arg index="3" ref="blackAndWhite"/>-->
+    <!--    </bean>-->
+
+    <!-- Complex type Referring  -->
+    <!--    <bean id="zebra2" class="com.spring.beans.Animal">-->
+    <!--        <property name="color" ref="blackAndWhite"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="blackAndWhite" class="com.spring.beans.Color">-->
+    <!--        <constructor-arg value="BlackAndWhite"/>-->
+    <!--        <constructor-arg value="56"/>-->
+    <!--    </bean>-->
+
+    <!--Inner Beans Demo  -->
+    <bean id="zebra3" class="com.spring.beans.Animal">
+        <property name="color">
+            <bean class="com.spring.beans.Color">
+                <constructor-arg value="BlackAndWhite"/>
+                <constructor-arg value="56"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--Inner Beans Demo 2 -->
+    <bean id="zebra4" class="com.spring.beans.Animal">
+        <property name="color">
+            <bean id="blackAndWhiteInner" class="com.spring.beans.Color">
+                <constructor-arg value="BlackAndWhite"/>
+                <constructor-arg value="56"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="tiger1" name="Tiger" class="com.spring.beans.Animal2">
+        <property name="size">
+            <bean class="com.spring.beans.Size">
+                <constructor-arg index="0" value="12.6"/>
+                <constructor-arg index="1" value="13.4"/>
+            </bean>
+        </property>
+    </bean>
+    <!-- idref -->
+    <bean id="tiger2" class="com.spring.beans.Animal2">
+        <property name="validator">
+            <idref bean="tiger3"/>
+        </property>
+    </bean>
+
+    <bean id="tiger3" class="com.spring.beans.Animal2">
+        <property name="size">
+            <bean class="com.spring.beans.Size">
+                <constructor-arg index="0" value="12.6"/>
+                <constructor-arg index="1" value="13.4"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="validatorBean" class="com.spring.beans.BeanValidator">
+        <property name="animal1">
+            <idref bean="tiger1"/>
+        </property>
+        <property name="animal2">
+            <idref bean="tiger2"/>
+        </property>
+    </bean>
+    <!-- alias -->
+    <bean id="validatorBean1" class="com.spring.beans.BeanValidator">
+        <property name="animal1">
+            <idref bean="tiger1"/>
+        </property>
+        <property name="animal2">
+            <idref bean="tiger2"/>
+        </property>
+    </bean>
+    <alias name="validatorBean1" alias="BeanValidator"/>
+
+    <!-- Collection ref -->
+    <bean id="lion" class="com.spring.beans.Animal3">
+        <property name="names">
+            <list>
+                <value>tiger1</value>
+                <value>tiger2</value>
+            </list>
+        </property>
+        <property name="setNames">
+            <set>
+                <value>tiger1</value>
+                <value>tiger2</value>
+            </set>
+        </property>
+        <property name="mapNames">
+            <map>
+                <entry key="1" value="Lion1"/>
+                <entry key="2" value="Lion2"/>
+
+            </map>
+        </property>
+    </bean>
+
+    <!-- Autowiring  Example byName -->
+    <!--    <bean id = "monkey1" class="com.spring.beans.Animal" autowire="byName">-->
+    <!--    </bean>-->
+
+    <!--    <bean id="color" class="com.spring.beans.Color">-->
+    <!--        <property name="colorName" value="blackAndWhite"/>-->
+    <!--        <property name="colorId" value="2"/>-->
+    <!--    </bean>-->
+
+    <!-- Autowiring Example byType -->
+    <!--    <bean id="monkey2" class="com.spring.beans.Animal" autowire="byType">-->
+    <!--    </bean>-->
+
+    <!--    <bean id="blackAndWhite" class="com.spring.beans.Color">-->
+    <!--        <property name="colorName" value="blackAndWhite"/>-->
+    <!--        <property name="colorId" value="2"/>-->
+    <!--    </bean>-->
+
+    <!-- Autowiring Example constructor -->
+    <!--    <bean id="monkey3" class="com.spring.beans.Animal" autowire="constructor">-->
+    <!--    </bean>-->
+
+    <bean id="color" class="com.spring.beans.Color">
+        <property name="colorName" value="blackAndWhite"/>
+        <property name="colorId" value="2"/>
+    </bean>
+
+
+    <!-- Autowiring Example constructor -->
+    <!--    <bean id="monkey4" class="com.spring.beans.Animal" autowire="constructor" autowire-candidate="false">-->
+    <!--    </bean>-->
+
+    <!-- Singleton will create the Bean automatically  -->
+    <bean id="monkey5" class="com.spring.beans.Animal" autowire="constructor" scope="singleton">
+    </bean>
+
+    <!-- Prototype will create the Bean once we refer to it. -->
+    <!--    <bean id="monkey5" class="com.spring.beans.Animal" autowire="constructor" scope="prototype">-->
+    <!--    </bean>-->
+
 </beans>

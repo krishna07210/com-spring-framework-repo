@@ -1,4 +1,4 @@
-package com.spring.model;
+package com.spring.beans;
 
 public class Point {
     int x;
